@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# Except the dashboard
+!docs/
+!docs/index.html
+!.gitignore
