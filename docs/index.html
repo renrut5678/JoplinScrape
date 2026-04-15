@@ -83,7 +83,7 @@
     <div class="tagline">Jasper County, MO &nbsp;·&nbsp; Recorder of Deeds &nbsp;·&nbsp; Parcel &amp; Ownership Data</div>
   </div>
   <div class="meta">
-    Generated 2026-04-15 22:19<br>
+    Generated 2026-04-15 22:23<br>
     <span style="color:#667799">30-day instrument window</span>
   </div>
 </header>
@@ -121,8 +121,6 @@
   <label>Source:
     <select id="filter-source">
       <option value="">All Sources</option>
-      <option value="icounty">iCounty Recorder</option>
-      <option value="mo_public_notices">MO Public Notices</option>
     </select>
   </label>
   <label>Match:
@@ -307,6 +305,25 @@ document.querySelectorAll('th[data-col]').forEach(th => {
     render();
   });
 });
+
+// Build source dropdown from data
+(function() {
+  const SOURCE_LABELS = {
+    'icounty':           'iCounty Recorder',
+    'mo_public_notices': 'MO Public Notices',
+  };
+  const counts = {};
+  ALL.forEach(r => {
+    if (r.source_system) counts[r.source_system] = (counts[r.source_system] || 0) + 1;
+  });
+  const sel = document.getElementById('filter-source');
+  Object.entries(counts).sort((a,b) => b[1]-a[1]).forEach(([k, v]) => {
+    const opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = `${SOURCE_LABELS[k] || k} (${v})`;
+    sel.appendChild(opt);
+  });
+})();
 
 // Build type dropdown from data with counts
 (function() {
